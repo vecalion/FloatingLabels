@@ -17,11 +17,14 @@
                    Unfocused="Handle_Unfocused" 
                    Focused="Handle_Focused">
             </Entry>
-            <Label x:Name="LabelTitle" Text="{Binding Title, Source={x:Reference this}}" TextColor="#5D98B8" VerticalOptions="Center">
+            <Label x:Name="LabelTitle" 
+                   Text="{Binding Title, Source={x:Reference this}}" TextColor="#5D98B8" VerticalOptions="Center">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Handle_Tapped" />
                 </Label.GestureRecognizers>
             </Label>
         </Grid>
+        
+        
     </ContentView.Content>
 </ContentView>

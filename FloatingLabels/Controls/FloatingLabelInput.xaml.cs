@@ -14,10 +14,27 @@ namespace FloatingLabels.Controls
         public event EventHandler Completed;
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create("Text", typeof(string), typeof(string), string.Empty, BindingMode.TwoWay, null, HandleBindingPropertyChangedDelegate);
+
         public static readonly BindableProperty TitleProperty = BindableProperty.Create("Title", typeof(string), typeof(string), string.Empty, BindingMode.TwoWay, null);
         public static readonly BindableProperty ReturnTypeProperty = BindableProperty.Create(nameof(ReturnType), typeof(ReturnType), typeof(FloatingLabelInput), ReturnType.Default);
         public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create("IsPassword", typeof(bool), typeof(FloatingLabelInput), default(bool));
         public static readonly BindableProperty KeyboardProperty = BindableProperty.Create("Keyboard", typeof(Keyboard), typeof(FloatingLabelInput), Keyboard.Default, coerceValue: (o, v) => (Keyboard)v ?? Keyboard.Default);
+
+        static async void HandleBindingPropertyChangedDelegate(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as FloatingLabelInput;
+            if (!control.EntryField.IsFocused)
+            {
+                if (!string.IsNullOrEmpty((string)newValue))
+                {
+                    await control.TransitionToTitle(false);
+                }
+                else
+                {
+                    await control.TransitionToPlaceholder(false);
+                }
+            }
+        }
 
         public string Text
         {
@@ -49,22 +66,6 @@ namespace FloatingLabels.Controls
             set { SetValue(KeyboardProperty, value); }
         }
 
-        static async void HandleBindingPropertyChangedDelegate(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = bindable as FloatingLabelInput;
-            if (!control.EntryField.IsFocused)
-            {
-                if (!string.IsNullOrEmpty((string)newValue))
-                {
-                    await control.MoveLabelToTop(false);
-                }
-                else
-                {
-                    await control.MoveLabelToMiddle(false);
-                }
-            }
-        }
-
         public FloatingLabelInput()
         {
             InitializeComponent();
@@ -84,11 +85,19 @@ namespace FloatingLabels.Controls
         {
             if (string.IsNullOrEmpty(Text))
             {
-                await MoveLabelToTop(true);
+                await TransitionToTitle(true);
             }
         }
 
-        async Task MoveLabelToTop(bool animated)
+        async void Handle_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (string.IsNullOrEmpty(Text))
+            {
+                await TransitionToPlaceholder(true);
+            }
+        }
+
+        async Task TransitionToTitle(bool animated)
         {
             if (animated)
             {
@@ -104,7 +113,7 @@ namespace FloatingLabels.Controls
             }
         }
 
-        async Task MoveLabelToMiddle(bool animated)
+        async Task TransitionToPlaceholder(bool animated)
         {
             if (animated)
             {
@@ -120,20 +129,17 @@ namespace FloatingLabels.Controls
             }
         }
 
-        async void Handle_Unfocused(object sender, FocusEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Text))
-            {
-                await MoveLabelToMiddle(true);
-            }
-        }
-
-        void Handle_Tapped(object sender, EventArgs e)
+        void zHandle_Tapped(object sender, EventArgs e)
         {
             if (IsEnabled)
             {
                 EntryField.Focus();
             }
+        }
+
+        void Handle_Tapped(object sender, EventArgs e)
+        {
+            EntryField.Focus();
         }
 
         Task SizeTo(int fontSize)
