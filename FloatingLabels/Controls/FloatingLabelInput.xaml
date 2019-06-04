@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="FloatingLabels.Controls.FloatingLabelInput"
+             x:Name="this">
+    <ContentView.Content>
+        <Grid>
+            <Entry x:Name="EntryField" 
+                   Completed="Handle_Completed" 
+                   HeightRequest="46" 
+                   Text="{Binding Text, Source={x:Reference this}}" 
+                   ReturnType="{Binding ReturnType, Source={x:Reference this}}"
+                   IsPassword="{Binding IsPassword, Source={x:Reference this}}"
+                   Keyboard="{Binding Keyboard, Source={x:Reference this}}"
+                   TextColor="#374955" 
+                   BackgroundColor="#E6F4F1"
+                   Unfocused="Handle_Unfocused" 
+                   Focused="Handle_Focused">
+            </Entry>
+            <Label x:Name="LabelTitle" Text="{Binding Title, Source={x:Reference this}}" TextColor="#5D98B8" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Handle_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

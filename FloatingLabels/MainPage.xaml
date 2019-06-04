@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:FloatingLabels" 
+             xmlns:controls="clr-namespace:FloatingLabels.Controls" 
+             x:Class="FloatingLabels.MainPage"
+             BackgroundColor="#EFFBFF">
+    <StackLayout>
+       
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" WidthRequest="400" HorizontalOptions="Center">
+            <controls:FloatingLabelInput Title="Username" HorizontalOptions="Center" Margin="20,5,20,10" />
+            <controls:FloatingLabelInput Title="Password" IsPassword="true" HorizontalOptions="Center" Margin="20,10,20,10" />
+            <Button Text="Sign In" HeightRequest="46" BackgroundColor="#00C0FF" TextColor="#EFFBFF" Margin="20,10,20,5" />
+        </StackLayout>
+            
+    </StackLayout>
+</ContentPage>
