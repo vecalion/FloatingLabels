@@ -129,17 +129,12 @@ namespace FloatingLabels.Controls
             }
         }
 
-        void zHandle_Tapped(object sender, EventArgs e)
+        void Handle_Tapped(object sender, EventArgs e)
         {
             if (IsEnabled)
             {
                 EntryField.Focus();
             }
-        }
-
-        void Handle_Tapped(object sender, EventArgs e)
-        {
-            EntryField.Focus();
         }
 
         Task SizeTo(int fontSize)
